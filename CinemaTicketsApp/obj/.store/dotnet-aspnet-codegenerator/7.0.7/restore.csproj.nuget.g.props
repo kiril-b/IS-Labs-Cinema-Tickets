@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <RestoreSuccess Condition=" '$(RestoreSuccess)' == '' ">True</RestoreSuccess>
+    <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
+    <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
+    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">D:\Kiril\Da Finki\6 Semestar\Интегрирани Системи\Cinema-Tickets-Lab-201010\Cinema-Tickets\CinemaTicketsApp\obj\.store\.stage\srwpqjcn.zzs</NuGetPackageRoot>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">D:\Kiril\Da Finki\6 Semestar\Интегрирани Системи\Cinema-Tickets-Lab-201010\Cinema-Tickets\CinemaTicketsApp\obj\.store\.stage\srwpqjcn.zzs</NuGetPackageFolders>
+    <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">DotnetToolReference</NuGetProjectStyle>
+    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.5.0</NuGetToolVersion>
+  </PropertyGroup>
+  <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <SourceRoot Include="D:\Kiril\Da Finki\6 Semestar\Интегрирани Системи\Cinema-Tickets-Lab-201010\Cinema-Tickets\CinemaTicketsApp\obj\.store\.stage\srwpqjcn.zzs\" />
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Pkgdotnet-aspnet-codegenerator Condition=" '$(Pkgdotnet-aspnet-codegenerator)' == '' ">D:\Kiril\Da Finki\6 Semestar\Интегрирани Системи\Cinema-Tickets-Lab-201010\Cinema-Tickets\CinemaTicketsApp\obj\.store\.stage\srwpqjcn.zzs\dotnet-aspnet-codegenerator\7.0.7</Pkgdotnet-aspnet-codegenerator>
+  </PropertyGroup>
+</Project>
