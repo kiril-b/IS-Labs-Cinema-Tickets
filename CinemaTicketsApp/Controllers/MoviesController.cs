@@ -2,39 +2,32 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CinemaTicketsDomain.DomainModels;
+using CinemaTicketServices.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using CinemaTicketsApp.Data;
-using CinemaTicketsApp.Models.Domain;
 
 namespace CinemaTicketsApp.Controllers {
     public class MoviesController : Controller {
-        private readonly ApplicationDbContext _context;
+        private readonly IMovieService _movieService;
 
-        public MoviesController(ApplicationDbContext context) {
-            _context = context;
+        public MoviesController(IMovieService movieService) {
+            _movieService = movieService;
         }
 
         // GET: Movies
-        public async Task<IActionResult> Index() {
-            return _context.Movies != null
-                ? View(await _context.Movies.ToListAsync())
-                : Problem("Entity set 'ApplicationDbContext.Movies'  is null.");
+        public IActionResult Index() {
+            return View(_movieService.GetAllMovies());
         }
 
         // GET: Movies/Details/5
-        public async Task<IActionResult> Details(Guid? id) {
-            if (id == null || _context.Movies == null) {
+        public IActionResult Details(Guid? id) {
+            if (id == null) {
                 return NotFound();
             }
 
-            var movie = await _context.Movies
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (movie == null) {
-                return NotFound();
-            }
-
+            var movie = this._movieService.GetMovieById(id);
             return View(movie);
         }
 
@@ -48,11 +41,9 @@ namespace CinemaTicketsApp.Controllers {
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Genre,Duration,Image")] Movie movie) {
+        public IActionResult Create([Bind("Id,Name,Description,Genre,Duration,Image")] Movie movie) {
             if (ModelState.IsValid) {
-                movie.Id = Guid.NewGuid();
-                _context.Add(movie);
-                await _context.SaveChangesAsync();
+                this._movieService.CreateNewMovie(movie);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -60,16 +51,12 @@ namespace CinemaTicketsApp.Controllers {
         }
 
         // GET: Movies/Edit/5
-        public async Task<IActionResult> Edit(Guid? id) {
-            if (id == null || _context.Movies == null) {
+        public IActionResult Edit(Guid? id) {
+            if (id == null) {
                 return NotFound();
             }
 
-            var movie = await _context.Movies.FindAsync(id);
-            if (movie == null) {
-                return NotFound();
-            }
-
+            var movie = this._movieService.GetMovieById(id);
             return View(movie);
         }
 
@@ -78,18 +65,17 @@ namespace CinemaTicketsApp.Controllers {
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name,Description,Genre,Duration,Image")] Movie movie) {
+        public IActionResult Edit(Guid id, [Bind("Id,Name,Description,Genre,Duration,Image")] Movie movie) {
             if (id != movie.Id) {
                 return NotFound();
             }
 
             if (ModelState.IsValid) {
                 try {
-                    _context.Update(movie);
-                    await _context.SaveChangesAsync();
+                    this._movieService.UpdateMovie(movie);
                 }
                 catch (DbUpdateConcurrencyException) {
-                    if (!MovieExists(movie.Id)) {
+                    if (!_movieService.MovieExists(movie.Id)) {
                         return NotFound();
                     }
                     else {
@@ -104,17 +90,11 @@ namespace CinemaTicketsApp.Controllers {
         }
 
         // GET: Movies/Delete/5
-        public async Task<IActionResult> Delete(Guid? id) {
-            if (id == null || _context.Movies == null) {
+        public IActionResult Delete(Guid? id) {
+            if (id == null) {
                 return NotFound();
             }
-
-            var movie = await _context.Movies
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (movie == null) {
-                return NotFound();
-            }
-
+            var movie = this._movieService.GetMovieById(id);
             return View(movie);
         }
 
@@ -122,21 +102,8 @@ namespace CinemaTicketsApp.Controllers {
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id) {
-            if (_context.Movies == null) {
-                return Problem("Entity set 'ApplicationDbContext.Movies'  is null.");
-            }
-
-            var movie = await _context.Movies.FindAsync(id);
-            if (movie != null) {
-                _context.Movies.Remove(movie);
-            }
-
-            await _context.SaveChangesAsync();
+            this._movieService.DeleteMovie(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool MovieExists(Guid id) {
-            return (_context.Movies?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

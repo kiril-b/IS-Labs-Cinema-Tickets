@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
-using CinemaTicketsApp.Models.Domain;
-using CinemaTicketsApp.Models.DTOs;
-using CinemaTicketsApp.Models.Identity;
+using CinemaTicketsDomain.DomainModels;
+using CinemaTicketsDomain.DTOs;
+using CinemaTicketsDomain.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

@@ -1,46 +1,38 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using CinemaTicketsApp.Data;
-using CinemaTicketsApp.Models.Domain;
+using CinemaTicketsDomain.DomainModels;
+using CinemaTicketServices.Implementation;
+using CinemaTicketServices.Interface;
 
 namespace CinemaTicketsApp.Controllers {
     public class MovieProjectionsController : Controller {
-        private readonly ApplicationDbContext _context;
+        private readonly IMovieProjectionService _movieProjectionService;
+        private readonly IMovieService _movieService;
 
-        public MovieProjectionsController(ApplicationDbContext context) {
-            _context = context;
+        public MovieProjectionsController(IMovieProjectionService movieProjectionService, IMovieService movieService) {
+            _movieProjectionService = movieProjectionService;
+            _movieService = movieService;
         }
 
         // GET: MovieProjections
-        public async Task<IActionResult> Index() {
-            var applicationDbContext = _context.MovieProjections.Include(m => m.Movie);
-            return View(await applicationDbContext.ToListAsync());
+        public IActionResult Index() {
+            return View(_movieProjectionService.GetAllMovieProjections());
         }
 
         // GET: MovieProjections/Details/5
-        public async Task<IActionResult> Details(Guid? id) {
-            if (id == null || _context.MovieProjections == null) {
+        public IActionResult Details(Guid? id) {
+            if (id == null) {
                 return NotFound();
             }
 
-            var movieProjection = await _context.MovieProjections
-                .Include(m => m.Movie)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (movieProjection == null) {
-                return NotFound();
-            }
-
+            var movieProjection = this._movieProjectionService.GetMovieProjectionById(id);
             return View(movieProjection);
         }
 
         // GET: MovieProjections/Create
         public IActionResult Create() {
-            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Name");
+            ViewData["MovieId"] = new SelectList(_movieService.GetAllMovies(), "Id", "Name");
             return View();
         }
 
@@ -49,31 +41,30 @@ namespace CinemaTicketsApp.Controllers {
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
+        public IActionResult Create(
             [Bind("Id,DateTime,AvailableTickets,PriceOfTicket,MovieId")] MovieProjection movieProjection) {
             if (ModelState.IsValid) {
-                movieProjection.Id = Guid.NewGuid();
-                _context.Add(movieProjection);
-                await _context.SaveChangesAsync();
+                _movieProjectionService.CreateNewMovieProjection(movieProjection);
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Name", movieProjection.MovieId);
+            ViewData["MovieId"] = new SelectList(_movieService.GetAllMovies(), "Id", "Name", movieProjection.MovieId);
             return View(movieProjection);
         }
 
         // GET: MovieProjections/Edit/5
-        public async Task<IActionResult> Edit(Guid? id) {
-            if (id == null || _context.MovieProjections == null) {
+        public IActionResult Edit(Guid? id) {
+            if (id == null) {
                 return NotFound();
             }
 
-            var movieProjection = await _context.MovieProjections.FindAsync(id);
+            var movieProjection = _movieProjectionService.GetMovieProjectionById(id);
             if (movieProjection == null) {
                 return NotFound();
             }
 
-            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Description", movieProjection.MovieId);
+            ViewData["MovieId"] =
+                new SelectList(_movieService.GetAllMovies(), "Id", "Name", movieProjection.MovieId);
             return View(movieProjection);
         }
 
@@ -83,15 +74,15 @@ namespace CinemaTicketsApp.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id,
-            [Bind("Id,DateTime,AvailableTickets,PriceOfTicket,MovieId")] MovieProjection movieProjection) {
+            [Bind("Id,DateTime,AvailableTickets,PriceOfTicket,MovieId")]
+            MovieProjection movieProjection) {
             if (id != movieProjection.Id) {
                 return NotFound();
             }
 
             if (ModelState.IsValid) {
                 try {
-                    _context.Update(movieProjection);
-                    await _context.SaveChangesAsync();
+                    _movieProjectionService.UpdateMovieProjection(movieProjection);
                 }
                 catch (DbUpdateConcurrencyException) {
                     if (!MovieProjectionExists(movieProjection.Id)) {
@@ -105,19 +96,18 @@ namespace CinemaTicketsApp.Controllers {
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Description", movieProjection.MovieId);
+            ViewData["MovieId"] =
+                new SelectList(_movieService.GetAllMovies(), "Id", "Description", movieProjection.MovieId);
             return View(movieProjection);
         }
 
         // GET: MovieProjections/Delete/5
-        public async Task<IActionResult> Delete(Guid? id) {
-            if (id == null || _context.MovieProjections == null) {
+        public IActionResult Delete(Guid? id) {
+            if (id == null) {
                 return NotFound();
             }
 
-            var movieProjection = await _context.MovieProjections
-                .Include(m => m.Movie)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var movieProjection = _movieProjectionService.GetMovieProjectionById(id);
             if (movieProjection == null) {
                 return NotFound();
             }
@@ -128,22 +118,13 @@ namespace CinemaTicketsApp.Controllers {
         // POST: MovieProjections/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id) {
-            if (_context.MovieProjections == null) {
-                return Problem("Entity set 'ApplicationDbContext.MovieProjections'  is null.");
-            }
-
-            var movieProjection = await _context.MovieProjections.FindAsync(id);
-            if (movieProjection != null) {
-                _context.MovieProjections.Remove(movieProjection);
-            }
-
-            await _context.SaveChangesAsync();
+        public IActionResult DeleteConfirmed(Guid id) {
+            _movieProjectionService.DeleteMovieProjection(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool MovieProjectionExists(Guid id) {
-            return (_context.MovieProjections?.Any(e => e.Id == id)).GetValueOrDefault();
+            return _movieProjectionService.MovieProjectionExists(id);
         }
     }
 }
