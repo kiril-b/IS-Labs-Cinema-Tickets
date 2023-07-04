@@ -17,8 +17,12 @@ namespace CinemaTicketsApp.Controllers {
 
         // GET: MovieProjections
         public IActionResult Index() {
-            return View(_movieProjectionService.GetAllMovieProjections());
+            return View(_movieProjectionService.GetMovieProjectionsByMovie());
         }
+        
+        public IActionResult FilterByDate(DateTime startDate, DateTime endDate) {
+            return View("Index", _movieProjectionService.GetGroupedFilteredProjections(startDate, endDate));
+        } 
 
         // GET: MovieProjections/Details/5
         public IActionResult Details(Guid? id) {

@@ -14,9 +14,17 @@ public class MovieProjectionRepository : IMovieProjectionRepository {
         this.entities = context.Set<MovieProjection>();
     }
 
-    public IEnumerable<MovieProjection> GetAll() {
+    public IEnumerable<MovieProjection> GetAvailableProjections() {
         return this.entities
             .Include(m => m.Movie)
+            .Where(m => m.AvailableTickets > 0 && m.DateTime >= DateTime.Now)
+            .AsEnumerable();
+    }
+
+    public IEnumerable<MovieProjection> GetFilteredProjections(DateTime from, DateTime to) {
+        return this.entities
+            .Include(m => m.Movie)
+            .Where(m => m.AvailableTickets > 0 && m.DateTime >= from &&  m.DateTime <= to)
             .AsEnumerable();
     }
 

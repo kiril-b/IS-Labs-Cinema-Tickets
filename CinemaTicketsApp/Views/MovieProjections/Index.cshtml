@@ -1,4 +1,4 @@
-@model IEnumerable<CinemaTicketsDomain.DomainModels.MovieProjection>
+@model Dictionary<Movie, List<MovieProjection>>
 
 @{
     ViewData["Title"] = "Index";
@@ -10,45 +10,59 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DateTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AvailableTickets)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PriceOfTicket)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Movie)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AvailableTickets)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PriceOfTicket)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Movie.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<form asp-action="FilterByDate" method="get" class="d-flex justify-content-between w-50 align-items-center p-3 ms-0 rounded-3 bg-light">
+    <label for="startDate">Start Date:</label>
+    <input type="date" id="startDate" name="startDate" class="form-control w-25">
+
+    <label for="endDate">End Date:</label>
+    <input type="date" id="endDate" name="endDate" class="form-control w-25">
+
+    <button type="submit" class="btn btn-primary">Filter</button>
+    
+    <a asp-action="Index" class="btn btn-secondary">Reset</a>
+</form>
+
+
+<div class="row w-100">
+    @foreach (var kvp in Model) {
+        <div class="col-12 d-flex w-100 border border-1 border-success rounded-2 p-3 my-2">
+            <div class="pe-2" style="border-right: 2px solid lightgray;">
+                <img src="@kvp.Key.Image" alt="Movie Image">
+                <div class="card-body">
+                    <h5 class="card-title">@kvp.Key.Name</h5>
+                    <p class="card-text text-muted">@kvp.Key.Genre</p>
+                </div>
+            </div>
+            <table class="table ms-3">
+                <tbody>
+                    @foreach (var projection in kvp.Value)
+                    {
+                        <tr>
+                            <td>
+                                <p>Date & Time: <b>@projection.DateTime</b></p>
+                                <p>Available Tickets: @projection.AvailableTickets</p>
+                                <p>Ticket Price: $ @projection.PriceOfTicket</p>
+                            </td>
+                            <td>
+                                <div class="py-2">
+                                    <a asp-action="Edit" asp-route-id="@projection.Id" class="btn btn-warning">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@projection.Id" class="btn btn-light">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@projection.Id" class="btn btn-danger">Delete</a>
+                                </div>
+                                <div>
+                                    <form asp-controller="ShoppingCart" asp-action="AddToShoppingCart" method="post">
+                                        <input type="text" value="@projection.Id" name="movieProjectionId" hidden="hidden">
+                                        <input type="number" name="quantity" class="form-control my-2 w-25" placeholder="Quantity">
+                                        <button type="submit" class="btn btn-success my-2">Add to Cart</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    }
+</div>

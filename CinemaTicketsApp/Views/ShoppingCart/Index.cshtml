@@ -1,36 +1,49 @@
-@* @model IEnumerable<CinemaTicketsApp.Models.Domain.ShoppingCart> *@
-@* *@
-@* @{ *@
-@*     ViewData["Title"] = "Index"; *@
-@*     Layout = "~/Views/Shared/_Layout.cshtml"; *@
-@* } *@
-@* *@
-@* <h1>Index</h1> *@
-@* *@
-@* <p> *@
-@*     <a asp-action="Create">Create New</a> *@
-@* </p> *@
-@* <table class="table"> *@
-@*     <thead> *@
-@*         <tr> *@
-@*             <th> *@
-@*                 @Html.DisplayNameFor(model => model.CustomUser) *@
-@*             </th> *@
-@*             <th></th> *@
-@*         </tr> *@
-@*     </thead> *@
-@*     <tbody> *@
-@* @foreach (var item in Model) { *@
-@*         <tr> *@
-@*             <td> *@
-@*                 @Html.DisplayFor(modelItem => item.CustomUser.Id) *@
-@*             </td> *@
-@*             <td> *@
-@*                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> | *@
-@*                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> | *@
-@*                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> *@
-@*             </td> *@
-@*         </tr> *@
-@* } *@
-@*     </tbody> *@
-@* </table> *@
+@using System.Diagnostics
+@model CinemaTicketsDomain.DomainModels.ShoppingCart
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h1 class="my-3">Shopping Cart</h1>
+    <hr>
+
+    <div class="d-flex align-items-start mt-2" style="gap: 25px">
+        @foreach (var ticket in Model.Tickets)
+            {
+                <div class="card mb-3" style="width: 30%;">
+                    <img src="@ticket.MovieProjection.Movie.Image" class="card-img-top h-25" alt="@ticket.MovieProjection.Movie.Name">
+                    <div class="card-body">
+                        <h5 class="card-title mt-2">@ticket.MovieProjection.Movie.Name</h5>
+                        <hr>
+                        <p class="card-text">Quantity: @ticket.Quantity</p>
+                        <p class="card-text">Date: <b>@ticket.MovieProjection.DateTime</b></p>
+                        <p class="card-text">Price for a single ticket: <b>$@ticket.MovieProjection.PriceOfTicket</b></p>
+                        <a class="btn btn-danger" asp-controller="ShoppingCart" asp-action="DeleteItemFromShoppingCart" asp-route-movieProjectionId="@ticket.MovieProjectionId">Delete</a>
+                    </div>
+                </div>
+            }
+    </div>
+
+    <hr>
+
+    @{
+        float totalAmount = 0;
+    }
+
+    <!-- Iterate over the tickets and calculate the total amount -->
+    @foreach (var ticket in Model.Tickets)
+    {
+        float ticketAmount = ticket.MovieProjection.PriceOfTicket * ticket.Quantity;
+        totalAmount += ticketAmount;
+    }
+
+    <!-- Display the total amount -->
+    <div class="bg-light p-4 d-flex justify-content-between">
+        <h2 class="display-5">Total Amount: <b>$@totalAmount</b></h2>
+        <button class="btn btn-success px-4">Order now!</button>
+    </div>
+</div>
+

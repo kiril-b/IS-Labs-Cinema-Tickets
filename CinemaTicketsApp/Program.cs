@@ -26,10 +26,13 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
 builder.Services.AddScoped(typeof(IMovieProjectionRepository), typeof(MovieProjectionRepository));
 builder.Services.AddScoped(typeof(IOrderRepository), typeof(OrderRepository));
+builder.Services.AddScoped(typeof(IShoppingCartRepository), typeof(ShoppingCartRepository));
+
 
 builder.Services.AddTransient<IMovieService, MovieService>();
 builder.Services.AddTransient<IMovieProjectionService, MovieProjectionService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddTransient<IShoppingCartService, ShoppingCartService>();
 
 builder.Services.AddControllersWithViews();
 
