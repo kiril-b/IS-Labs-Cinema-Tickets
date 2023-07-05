@@ -1,42 +1,48 @@
+@using Microsoft.AspNetCore.Server.Kestrel.Core
 @model IEnumerable<CinemaTicketsDomain.DomainModels.Order>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "ExportTickets";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1 class="mb-3">Orders History</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TimeCreated)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomUser)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TimeCreated)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomUser.Id)
-            </td>
-            <td>
-                @* <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> | *@
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                @* <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> *@
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="container">
+
+    @foreach (var order in Model) {
+        <h4>@order.TimeCreated</h4>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Movie Name</th>
+                <th>Projection Date & Time</th>
+                <th>Price</th>
+                <th>Quantity</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var ticket in order.Tickets) {
+                <tr>
+                    <td>@ticket.MovieProjection.Movie.Name</td>
+                    <td>@ticket.MovieProjection.DateTime</td>
+                    <td>$@ticket.MovieProjection.PriceOfTicket</td>
+                    <td>@ticket.Quantity</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        float totalOrderAmount = 0;
+        foreach (var ticket in order.Tickets) {
+            float ticketAmount = ticket.MovieProjection.PriceOfTicket * ticket.Quantity;
+            totalOrderAmount += ticketAmount;
+        }
+
+        <div class="bg-light px-3 py-2 d-flex justify-content-between">
+            <h4 class="">Order Total: $@totalOrderAmount</h4>
+            <a class="btn btn-success" asp-controller="Orders" asp-action="CreateOrderInvoice" asp-route-id="@order.Id">Generate PDF</a>
+        </div>
+        <hr/>
+    }
+
+</div>

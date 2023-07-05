@@ -11,20 +11,19 @@
     <hr>
 
     <div class="d-flex align-items-start mt-2" style="gap: 25px">
-        @foreach (var ticket in Model.Tickets)
-            {
-                <div class="card mb-3" style="width: 30%;">
-                    <img src="@ticket.MovieProjection.Movie.Image" class="card-img-top h-25" alt="@ticket.MovieProjection.Movie.Name">
-                    <div class="card-body">
-                        <h5 class="card-title mt-2">@ticket.MovieProjection.Movie.Name</h5>
-                        <hr>
-                        <p class="card-text">Quantity: @ticket.Quantity</p>
-                        <p class="card-text">Date: <b>@ticket.MovieProjection.DateTime</b></p>
-                        <p class="card-text">Price for a single ticket: <b>$@ticket.MovieProjection.PriceOfTicket</b></p>
-                        <a class="btn btn-danger" asp-controller="ShoppingCart" asp-action="DeleteItemFromShoppingCart" asp-route-movieProjectionId="@ticket.MovieProjectionId">Delete</a>
-                    </div>
+        @foreach (var ticket in Model.Tickets) {
+            <div class="card mb-3" style="width: 30%;">
+                <img src="@ticket.MovieProjection.Movie.Image" class="card-img-top h-25" alt="@ticket.MovieProjection.Movie.Name">
+                <div class="card-body">
+                    <h5 class="card-title mt-2">@ticket.MovieProjection.Movie.Name</h5>
+                    <hr>
+                    <p class="card-text">Quantity: @ticket.Quantity</p>
+                    <p class="card-text">Date: <b>@ticket.MovieProjection.DateTime</b></p>
+                    <p class="card-text">Price for a single ticket: <b>$@ticket.MovieProjection.PriceOfTicket</b></p>
+                    <a class="btn btn-danger" asp-controller="ShoppingCart" asp-action="DeleteItemFromShoppingCart" asp-route-movieProjectionId="@ticket.MovieProjectionId">Delete</a>
                 </div>
-            }
+            </div>
+        }
     </div>
 
     <hr>
@@ -32,10 +31,8 @@
     @{
         float totalAmount = 0;
     }
-
-    <!-- Iterate over the tickets and calculate the total amount -->
-    @foreach (var ticket in Model.Tickets)
-    {
+    
+    @foreach (var ticket in Model.Tickets) {
         float ticketAmount = ticket.MovieProjection.PriceOfTicket * ticket.Quantity;
         totalAmount += ticketAmount;
     }
@@ -43,7 +40,8 @@
     <!-- Display the total amount -->
     <div class="bg-light p-4 d-flex justify-content-between">
         <h2 class="display-5">Total Amount: <b>$@totalAmount</b></h2>
-        <button class="btn btn-success px-4">Order now!</button>
+        <form asp-controller="Orders" asp-action="CreateOrder" method="post" style="margin-top:auto;margin-bottom: auto;">
+            <button class="btn btn-success px-4" type="submit">Order now!</button>
+        </form>
     </div>
 </div>
-

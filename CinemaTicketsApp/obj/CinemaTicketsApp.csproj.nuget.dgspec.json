@@ -47,6 +47,14 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "ClosedXML": {
+              "target": "Package",
+              "version": "[0.102.0, )"
+            },
+            "GemBox.Document": {
+              "target": "Package",
+              "version": "[35.0.1403, )"
+            },
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.8, )"
@@ -214,6 +222,16 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
+          "dependencies": {
+            "ClosedXML": {
+              "target": "Package",
+              "version": "[0.102.0, )"
+            },
+            "GemBox.Document": {
+              "target": "Package",
+              "version": "[35.0.1403, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

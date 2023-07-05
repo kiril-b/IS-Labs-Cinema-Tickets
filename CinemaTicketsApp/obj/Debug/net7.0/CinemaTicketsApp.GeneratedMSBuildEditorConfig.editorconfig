@@ -80,10 +80,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW92aWVzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Kiril/Da Finki/6 Semestar/Интегрирани Системи/Cinema-Tickets-Lab-201010/Cinema-Tickets/CinemaTicketsApp/Views/Orders/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJzXENyZWF0ZS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/Kiril/Da Finki/6 Semestar/Интегрирани Системи/Cinema-Tickets-Lab-201010/Cinema-Tickets/CinemaTicketsApp/Views/Orders/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJzXERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -92,8 +88,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJzXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Kiril/Da Finki/6 Semestar/Интегрирани Системи/Cinema-Tickets-Lab-201010/Cinema-Tickets/CinemaTicketsApp/Views/Orders/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJzXEVkaXQuY3NodG1s
+[D:/Kiril/Da Finki/6 Semestar/Интегрирани Системи/Cinema-Tickets-Lab-201010/Cinema-Tickets/CinemaTicketsApp/Views/Orders/ExportTickets.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJzXEV4cG9ydFRpY2tldHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Kiril/Da Finki/6 Semestar/Интегрирани Системи/Cinema-Tickets-Lab-201010/Cinema-Tickets/CinemaTicketsApp/Views/Orders/Index.cshtml]
@@ -112,20 +108,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Kiril/Da Finki/6 Semestar/Интегрирани Системи/Cinema-Tickets-Lab-201010/Cinema-Tickets/CinemaTicketsApp/Views/ShoppingCart/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hvcHBpbmdDYXJ0XENyZWF0ZS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/Kiril/Da Finki/6 Semestar/Интегрирани Системи/Cinema-Tickets-Lab-201010/Cinema-Tickets/CinemaTicketsApp/Views/ShoppingCart/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hvcHBpbmdDYXJ0XERlbGV0ZS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/Kiril/Da Finki/6 Semestar/Интегрирани Системи/Cinema-Tickets-Lab-201010/Cinema-Tickets/CinemaTicketsApp/Views/ShoppingCart/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hvcHBpbmdDYXJ0XERldGFpbHMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/Kiril/Da Finki/6 Semestar/Интегрирани Системи/Cinema-Tickets-Lab-201010/Cinema-Tickets/CinemaTicketsApp/Views/ShoppingCart/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hvcHBpbmdDYXJ0XEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Kiril/Da Finki/6 Semestar/Интегрирани Системи/Cinema-Tickets-Lab-201010/Cinema-Tickets/CinemaTicketsApp/Views/ShoppingCart/Index.cshtml]

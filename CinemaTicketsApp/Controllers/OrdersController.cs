@@ -1,62 +1,62 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using CinemaTicketsDomain.DomainModels;
 using CinemaTicketServices.Interface;
+using DocumentFormat.OpenXml.Drawing;
+using GemBox.Document;
 
 namespace CinemaTicketsApp.Controllers {
     public class OrdersController : Controller {
         private readonly IOrderService _orderService;
-        
+
         public OrdersController(IOrderService orderService) {
             _orderService = orderService;
+            ComponentInfo.SetLicense("FREE-LIMITED-KEY");
         }
 
-        
+
         // TODO: Manage roles
-        
+
         // GET: Orders
         public IActionResult Index() {
-            return View(_orderService.GetAllOrders());
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return View(_orderService.GetAllOrdersForUser(userId));
         }
 
         // GET: Orders/Details/5
-        public IActionResult Details(Guid? id) {
-            if (id == null) {
-                return NotFound();
-            }
+        // public IActionResult Details(Guid? id) {
+        //     if (id == null) {
+        //         return NotFound();
+        //     }
+        //
+        //     var movie = this._orderService.GetOrder(id);
+        //     return View(movie);
+        // }
 
-            var movie = this._orderService.GetOrder(id);
-            return View(movie);
-        }
 
-        // GET: Orders/Create
-        // TODO: This should not exist
-        public IActionResult Create() {
-            // ViewData["CustomUserId"] = new SelectList(_context.Users, "Id", "Id");
-            return View();
-        }
-
-        // POST: Orders/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Id,TimeCreated,CustomUserId")] Order order) {
-            // if (ModelState.IsValid) {
-            //     order.Id = Guid.NewGuid();
-            //     _context.Add(order);
-            //     await _context.SaveChangesAsync();
-            //     return RedirectToAction(nameof(Index));
-            // }
-            //
-            // ViewData["CustomUserId"] = new SelectList(_context.Users, "Id", "Id", order.CustomUserId);
-            // return View(order);
-            return null;
+        public IActionResult CreateOrder() {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            _orderService.PlaceOrder(userId);
+            return Redirect("Index");
+        }
+
+        public FileContentResult CreateOrderInvoice(Guid id) {
+            var stream = _orderService.CreateOrderInvoice(id);
+            return File(stream.ToArray(), new PdfSaveOptions().ContentType, "OrderInvoice.pdf");
+        }
+
+        public IActionResult ExportTickets() {
+            return View(_orderService.GetUniqueGenres());
+        }
+
+        [HttpPost]
+        public FileContentResult ExportTicketsByGenre(string genre) {
+            string fileName = "Orders.xlsx";
+            string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            var fileContent = _orderService.ExportToExcel(genre);
+
+            return File(fileContent, contentType, fileName);
         }
 
         // GET: Orders/Edit/5
@@ -137,6 +137,5 @@ namespace CinemaTicketsApp.Controllers {
         //     await _context.SaveChangesAsync();
         //     return RedirectToAction(nameof(Index));
         // }
-        
     }
 }

@@ -20,7 +20,6 @@ public class UserRepository : IUserRepository {
     }
 
     public CustomUser Get(string id) {
-        //TODO: Test if this works
         return entities
             .Include(z => z.ShoppingCart)
             .Include("ShoppingCart.Tickets")

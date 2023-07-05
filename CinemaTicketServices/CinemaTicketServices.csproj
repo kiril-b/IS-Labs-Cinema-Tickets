@@ -11,4 +11,9 @@
       <ProjectReference Include="..\CinemaTicketsRepository\CinemaTicketsRepository.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="ClosedXML" Version="0.102.0" />
+      <PackageReference Include="GemBox.Document" Version="35.0.1403" />
+    </ItemGroup>
+
 </Project>

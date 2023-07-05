@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Server.Kestrel.Core
+@model IEnumerable<string>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container h-100 my-auto mx-auto">
+    <h3>Export Tickets by genre:</h3>
+    <form method="post" asp-controller="Orders" asp-action="ExportTicketsByGenre">
+        <select name="genre" id="genre-select" class="form-select">
+            @foreach (var genre in Model) {
+                <option value="@genre">@genre</option>
+            }
+        </select>
+        <button type="submit" class="btn btn-success mt-3">Export Tickets</button>
+    </form>
+</div>

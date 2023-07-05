@@ -112,6 +112,7 @@ public class AccountController : Controller {
         return View(model);
     }
 
+    // TODO: expose to frontend
     [HttpGet]
     [AllowAnonymous]
     public IActionResult AddUserToRole() {
