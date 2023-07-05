@@ -2,6 +2,7 @@
 using CinemaTicketsDomain.DomainModels;
 using CinemaTicketsDomain.DTOs;
 using CinemaTicketsDomain.Identity;
+using ExcelDataReader;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -29,11 +30,7 @@ public class AccountController : Controller {
 
     [HttpPost, AllowAnonymous]
     public async Task<IActionResult> Register(UserRegistrationDto request) {
-        if (!await roleManager.RoleExistsAsync("Customer") && 
-            !await roleManager.RoleExistsAsync("Admin")) {
-            await roleManager.CreateAsync(new IdentityRole("Customer"));
-            await roleManager.CreateAsync(new IdentityRole("Admin"));
-        }
+        await InitRoles();
 
         if (ModelState.IsValid) {
             var userCheck = await userManager.FindByEmailAsync(request.Email);
@@ -71,6 +68,70 @@ public class AccountController : Controller {
         return View(request);
     }
 
+    [HttpPost]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> RegisterUsersFromFile(IFormFile file) {
+        await InitRoles();
+
+        string pathToUpload = $"{Directory.GetCurrentDirectory()}\\files\\{file.FileName}";
+        using (FileStream fileStream = System.IO.File.Create(pathToUpload)) {
+            file.CopyTo(fileStream);
+            fileStream.Flush();
+        }
+
+        List<UserExcelImportDto> usersDtos = getAllUsersFromFile(file.FileName);
+
+        foreach (var userDto in usersDtos) {
+            var userCheck = userManager.FindByEmailAsync(userDto.Email).Result;
+            if (userCheck == null) {
+                var newUser = new CustomUser() {
+                    UserName = userDto.Email,
+                    NormalizedUserName = userDto.Email,
+                    Email = userDto.Email,
+                    EmailConfirmed = true,
+                    PhoneNumberConfirmed = true,
+                    ShoppingCart = new ShoppingCart()
+                };
+                var result = userManager.CreateAsync(newUser, userDto.Password).Result;
+                if (result.Succeeded) {
+                    await roleManager.CreateAsync(new IdentityRole(userDto.Role));
+                    await userManager.AddToRoleAsync(newUser, userDto.Role);
+                }
+            }
+        }
+
+        return RedirectToAction("Index", "Home");
+    }
+
+    private async Task InitRoles() {
+        if (!await roleManager.RoleExistsAsync("Customer") &&
+            !await roleManager.RoleExistsAsync("Admin")) {
+            await roleManager.CreateAsync(new IdentityRole("Customer"));
+            await roleManager.CreateAsync(new IdentityRole("Admin"));
+        }
+    }
+
+    private List<UserExcelImportDto> getAllUsersFromFile(string fileName) {
+        List<UserExcelImportDto> users = new List<UserExcelImportDto>();
+        string filePath = $"{Directory.GetCurrentDirectory()}\\files\\{fileName}";
+        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+        using (var stream = System.IO.File.Open(filePath, FileMode.Open, FileAccess.Read)) {
+            using (var reader = ExcelReaderFactory.CreateReader(stream)) {
+                while (reader.Read()) {
+                    var newUser = new UserExcelImportDto {
+                        Email = reader.GetValue(0).ToString(),
+                        Password = reader.GetValue(1).ToString(),
+                        Role = reader.GetValue(2).ToString()
+                    };
+                    users.Add(newUser);
+                }
+            }
+        }
+
+        return users;
+    }
+
     [HttpGet]
     [AllowAnonymous]
     public IActionResult Login() {
@@ -97,11 +158,11 @@ public class AccountController : Controller {
 
             if (result.Succeeded) {
                 await userManager.AddClaimAsync(user, new Claim("UserRole", "Standard"));
-                return RedirectToAction("Index", "Movies");
+                return RedirectToAction("Index", "Home");
             }
             else if (result.IsLockedOut) {
                 // return View("AccountLocked");
-                return RedirectToAction("Index", "Movies");
+                return RedirectToAction("Index", "Home");
             }
             else {
                 ModelState.AddModelError("message", "Invalid login attempt");
@@ -111,8 +172,7 @@ public class AccountController : Controller {
 
         return View(model);
     }
-
-    // TODO: expose to frontend
+    
     [HttpGet]
     [AllowAnonymous]
     public IActionResult AddUserToRole() {
@@ -139,7 +199,7 @@ public class AccountController : Controller {
 
                 await userManager.AddToRoleAsync(user, model.SelectedRoleName);
 
-                return RedirectToAction("Index", "Movies");
+                return RedirectToAction("Index", "Home");
             }
         }
 

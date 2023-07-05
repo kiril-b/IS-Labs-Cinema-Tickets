@@ -1,17 +1,19 @@
-@model Dictionary<Movie, List<MovieProjection>>
+    @model Dictionary<Movie, List<MovieProjection>>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Current Movie Projections</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if (User.IsInRole("Admin")) {
+    <p>
+        <a asp-action="Create" class="btn btn-primary px-2">Create New</a>
+    </p>
+}
 
-<form asp-action="FilterByDate" method="get" class="d-flex justify-content-between w-50 align-items-center p-3 ms-0 rounded-3 bg-light">
+<form asp-action="FilterByDate" method="get" class="d-flex justify-content-between w-50 align-items-center p-3 ms-0 rounded-3 bg-light mt-3">
     <label for="startDate">Start Date:</label>
     <input type="date" id="startDate" name="startDate" class="form-control w-25">
 
@@ -19,7 +21,7 @@
     <input type="date" id="endDate" name="endDate" class="form-control w-25">
 
     <button type="submit" class="btn btn-primary">Filter</button>
-    
+
     <a asp-action="Index" class="btn btn-secondary">Reset</a>
 </form>
 
@@ -36,30 +38,31 @@
             </div>
             <table class="table ms-3">
                 <tbody>
-                    @foreach (var projection in kvp.Value)
-                    {
-                        <tr>
-                            <td>
-                                <p>Date & Time: <b>@projection.DateTime</b></p>
-                                <p>Available Tickets: @projection.AvailableTickets</p>
-                                <p>Ticket Price: $ @projection.PriceOfTicket</p>
-                            </td>
-                            <td>
-                                <div class="py-2">
-                                    <a asp-action="Edit" asp-route-id="@projection.Id" class="btn btn-warning">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@projection.Id" class="btn btn-light">Details</a> |
+                @foreach (var projection in kvp.Value) {
+                    <tr>
+                        <td>
+                            <p>Date & Time: <b>@projection.DateTime</b></p>
+                            <p>Available Tickets: @projection.AvailableTickets</p>
+                            <p>Ticket Price: $ @projection.PriceOfTicket</p>
+                        </td>
+                        <td>
+                            <div class="py-2">
+                                <a asp-action="Details" asp-route-id="@projection.Id" class="btn btn-light">Details</a>
+                                @if (User.IsInRole("Admin")) {
+                                    <span> | </span><a asp-action="Edit" asp-route-id="@projection.Id" class="btn btn-warning">Edit</a><span> | </span>
                                     <a asp-action="Delete" asp-route-id="@projection.Id" class="btn btn-danger">Delete</a>
-                                </div>
-                                <div>
-                                    <form asp-controller="ShoppingCart" asp-action="AddToShoppingCart" method="post">
-                                        <input type="text" value="@projection.Id" name="movieProjectionId" hidden="hidden">
-                                        <input type="number" name="quantity" class="form-control my-2 w-25" placeholder="Quantity">
-                                        <button type="submit" class="btn btn-success my-2">Add to Cart</button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    }
+                                }
+                            </div>
+                            <div>
+                                <form asp-controller="ShoppingCart" asp-action="AddToShoppingCart" method="post">
+                                    <input type="text" value="@projection.Id" name="movieProjectionId" hidden="hidden">
+                                    <input type="number" name="quantity" class="form-control my-2 w-25" placeholder="Quantity">
+                                    <button type="submit" class="btn btn-success my-2">Add to Cart</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
                 </tbody>
             </table>
 

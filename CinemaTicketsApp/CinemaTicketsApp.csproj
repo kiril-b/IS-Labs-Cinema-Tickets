@@ -13,6 +13,7 @@
 
     <ItemGroup>
         <PackageReference Include="ClosedXML" Version="0.102.0" />
+        <PackageReference Include="ExcelDataReader" Version="3.6.0" />
         <PackageReference Include="GemBox.Document" Version="35.0.1403" />
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.8" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.8" />
@@ -33,6 +34,10 @@
     <ItemGroup>
       <ProjectReference Include="..\CinemaTicketsDomain\CinemaTicketsDomain.csproj" />
       <ProjectReference Include="..\CinemaTicketServices\CinemaTicketServices.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="files\" />
     </ItemGroup>
 
 </Project>

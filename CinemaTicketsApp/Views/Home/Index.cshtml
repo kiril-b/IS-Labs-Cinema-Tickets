@@ -4,7 +4,46 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container text-center">
+    <div class="d-flex flex-column justify-content-center align-items-center">
+        @if (!User.IsInRole("Admin")) {
+            <div class="w-50">
+                <i>
+                    <p class="text-muted">Log in with a user with Role Amin, to unlock additional functionalities on this page!</p>
+                </i>
+            </div>
+        }
+        @if (User.Identity.IsAuthenticated) {
+            <a asp-controller="Account" asp-action="AddUserToRole" class="btn btn-primary w-50 my-2">Manage Roles for Existing Users</a>
+            <div class="border border-1 border-secondary w-50 mb-2"></div>
+        }
+        @if (User.IsInRole("Admin")) {
+            <div class="w-50">
+                <h3>Import users from file</h3>
+                <p class="text-muted">The excel file should have the following columns: <i>Email</i>, <i>Password</i>, <i>Role</i></p>
+                <form asp-controller="Account" asp-action="RegisterUsersFromFile"
+                      class="d-flex bg-light p-3 rounded-3 my-auto justify-content-around" enctype="multipart/form-data">
+                    <input type="file" name="file">
+                    <button type="submit" class="btn btn-warning">Import Users</button>
+                </form>
+                <div class="border border-1 border-secondary w-100 my-2"></div>
+                <a asp-controller="Orders" asp-action="ExportTickets" class="btn btn-success w-100 my-2">Export Tickets</a>
+                <div class="border border-1 border-secondary w-100 my-2"></div>
+            </div>
+        }
+        <div class="d-flex justify-content-center w-50 flex-wrap" style="gap: 20px;">
+            <div class="nav-item border border-2" style="width: 47%;">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Movies" asp-action="Index">Movies</a>
+            </div>
+            <div class="nav-item border border-2" style="width: 47%;">
+                <a class="nav-link text-dark" asp-area="" asp-controller="MovieProjections" asp-action="Index">Buy Tickets</a>
+            </div>
+            <div class="nav-item border border-2 bg-light" style="width: 47%;">
+                <a class="nav-link text-dark" asp-area="" asp-controller="ShoppingCart" asp-action="Index">Shopping Cart</a>
+            </div>
+            <div class="nav-item border border-2 bg-light" style="width: 47%;">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">Orders history</a>
+            </div>
+        </div>
+    </div>
 </div>

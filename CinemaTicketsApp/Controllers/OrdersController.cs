@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using CinemaTicketServices.Interface;
 using DocumentFormat.OpenXml.Drawing;
 using GemBox.Document;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CinemaTicketsApp.Controllers {
     public class OrdersController : Controller {
@@ -13,25 +14,12 @@ namespace CinemaTicketsApp.Controllers {
             ComponentInfo.SetLicense("FREE-LIMITED-KEY");
         }
 
-
-        // TODO: Manage roles
-
         // GET: Orders
         public IActionResult Index() {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             return View(_orderService.GetAllOrdersForUser(userId));
         }
-
-        // GET: Orders/Details/5
-        // public IActionResult Details(Guid? id) {
-        //     if (id == null) {
-        //         return NotFound();
-        //     }
-        //
-        //     var movie = this._orderService.GetOrder(id);
-        //     return View(movie);
-        // }
-
+        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -46,11 +34,13 @@ namespace CinemaTicketsApp.Controllers {
             return File(stream.ToArray(), new PdfSaveOptions().ContentType, "OrderInvoice.pdf");
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult ExportTickets() {
             return View(_orderService.GetUniqueGenres());
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public FileContentResult ExportTicketsByGenre(string genre) {
             string fileName = "Orders.xlsx";
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";

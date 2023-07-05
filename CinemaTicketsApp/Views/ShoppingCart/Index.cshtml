@@ -40,8 +40,15 @@
     <!-- Display the total amount -->
     <div class="bg-light p-4 d-flex justify-content-between">
         <h2 class="display-5">Total Amount: <b>$@totalAmount</b></h2>
-        <form asp-controller="Orders" asp-action="CreateOrder" method="post" style="margin-top:auto;margin-bottom: auto;">
-            <button class="btn btn-success px-4" type="submit">Order now!</button>
-        </form>
+        @if (Model.Tickets.Count > 0) {
+            <form asp-controller="Orders" asp-action="CreateOrder" method="post" style="margin-top:auto;margin-bottom: auto;">
+                <button class="btn btn-success px-4" type="submit">Order now!</button>
+            </form>
+        }
+        else {
+            <form asp-controller="Orders" asp-action="CreateOrder" method="post" style="margin-top:auto;margin-bottom: auto;">
+                <button class="btn btn-success px-4" type="submit" disabled="disabled">Order now!</button>
+            </form>
+        }
     </div>
 </div>

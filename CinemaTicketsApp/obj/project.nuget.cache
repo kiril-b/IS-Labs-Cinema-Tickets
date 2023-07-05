@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "d3BwBE/5x+vMCumCuQ1LpB30MF4CAFsdLqrrQvSAmBW1/HPO9zwtJ2D4zpGFKgGJzQyOmMaokU32D/ZkqHP+3w==",
+  "dgSpecHash": "YqPk+ErERTHciALxeDsN42kbtmvx6hR7Ubqc8WSrkRmyJD8/SoECWvanf1dC4RtFjJ6+qm6G86Qv5rkWtqMTzA==",
   "success": true,
   "projectFilePath": "D:\\Kiril\\Da Finki\\6 Semestar\\Интегрирани Системи\\Cinema-Tickets-Lab-201010\\Cinema-Tickets\\CinemaTicketsApp\\CinemaTicketsApp.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\User\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\closedxml\\0.102.0\\closedxml.0.102.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\documentformat.openxml\\2.16.0\\documentformat.openxml.2.16.0.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\exceldatareader\\3.6.0\\exceldatareader.3.6.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\excelnumberformat\\1.1.0\\excelnumberformat.1.1.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\gembox.document\\35.0.1403\\gembox.document.35.0.1403.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\harfbuzzsharp\\2.8.2\\harfbuzzsharp.2.8.2.nupkg.sha512",

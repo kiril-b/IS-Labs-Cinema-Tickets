@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CinemaTicketsDomain.DomainModels;
 using CinemaTicketServices.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,7 @@ namespace CinemaTicketsApp.Controllers {
         }
 
         // GET: Movies/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create() {
             return View();
         }
@@ -41,6 +43,7 @@ namespace CinemaTicketsApp.Controllers {
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create([Bind("Id,Name,Description,Genre,Duration,Image")] Movie movie) {
             if (ModelState.IsValid) {
                 this._movieService.CreateNewMovie(movie);
@@ -51,6 +54,7 @@ namespace CinemaTicketsApp.Controllers {
         }
 
         // GET: Movies/Edit/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(Guid? id) {
             if (id == null) {
                 return NotFound();
@@ -65,6 +69,7 @@ namespace CinemaTicketsApp.Controllers {
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(Guid id, [Bind("Id,Name,Description,Genre,Duration,Image")] Movie movie) {
             if (id != movie.Id) {
                 return NotFound();
@@ -90,6 +95,7 @@ namespace CinemaTicketsApp.Controllers {
         }
 
         // GET: Movies/Delete/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(Guid? id) {
             if (id == null) {
                 return NotFound();
@@ -101,6 +107,7 @@ namespace CinemaTicketsApp.Controllers {
         // POST: Movies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(Guid id) {
             this._movieService.DeleteMovie(id);
             return RedirectToAction(nameof(Index));

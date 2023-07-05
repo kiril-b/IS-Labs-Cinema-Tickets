@@ -51,6 +51,10 @@
               "target": "Package",
               "version": "[0.102.0, )"
             },
+            "ExcelDataReader": {
+              "target": "Package",
+              "version": "[3.6.0, )"
+            },
             "GemBox.Document": {
               "target": "Package",
               "version": "[35.0.1403, )"
@@ -226,6 +230,10 @@
             "ClosedXML": {
               "target": "Package",
               "version": "[0.102.0, )"
+            },
+            "ExcelDataReader": {
+              "target": "Package",
+              "version": "[3.6.0, )"
             },
             "GemBox.Document": {
               "target": "Package",

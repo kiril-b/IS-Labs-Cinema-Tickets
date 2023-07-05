@@ -3,6 +3,9 @@
 <h2>Add User to Role</h2>
 
 @using (Html.BeginForm()) {
+    
+    <i><h3 class="text-muted">Make sure to log out and log back in, if you change Role on the currently logged in account!</h3></i>
+    
     <div class="form-group">
         @Html.LabelFor(m => m.SelectedUserId, "User")
         @Html.DropDownListFor(m => m.SelectedUserId, Model.Users, "-- Select User --", new { @class = "form-control" })

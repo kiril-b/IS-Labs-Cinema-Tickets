@@ -7,9 +7,11 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if (User.IsInRole("Admin")) {
+    <p>
+        <a asp-action="Create" class="btn btn-primary px-2">Create New</a>
+    </p>
+}
 
 <div class="d-flex justify-content-center" style="gap: 2rem; height: 30rem;">
 
@@ -23,11 +25,13 @@
                     <strong>Genre:</strong> @item.Genre
                 </p>
                 <p class="card-text">
-                    <strong>Duration:</strong> @item.Duration
+                    <strong>Duration:</strong> @item.Duration minutes
                 </p>
-                <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-primary">Edit</a>
                 <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-secondary">Details</a>
-                <a href="@Url.Action("Delete", new { id = item.Id })" class="btn btn-danger">Delete</a>
+                @if (User.IsInRole("Admin")) {
+                    <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-primary">Edit</a>
+                    <a href="@Url.Action("Delete", new { id = item.Id })" class="btn btn-danger">Delete</a>
+                }
             </div>
         </div>
     }

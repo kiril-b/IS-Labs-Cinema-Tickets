@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using CinemaTicketsDomain.DomainModels;
 using CinemaTicketServices.Implementation;
 using CinemaTicketServices.Interface;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CinemaTicketsApp.Controllers {
     public class MovieProjectionsController : Controller {
@@ -35,6 +36,7 @@ namespace CinemaTicketsApp.Controllers {
         }
 
         // GET: MovieProjections/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create() {
             ViewData["MovieId"] = new SelectList(_movieService.GetAllMovies(), "Id", "Name");
             return View();
@@ -45,6 +47,7 @@ namespace CinemaTicketsApp.Controllers {
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(
             [Bind("Id,DateTime,AvailableTickets,PriceOfTicket,MovieId")] MovieProjection movieProjection) {
             if (ModelState.IsValid) {
@@ -57,6 +60,7 @@ namespace CinemaTicketsApp.Controllers {
         }
 
         // GET: MovieProjections/Edit/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(Guid? id) {
             if (id == null) {
                 return NotFound();
@@ -77,6 +81,7 @@ namespace CinemaTicketsApp.Controllers {
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(Guid id,
             [Bind("Id,DateTime,AvailableTickets,PriceOfTicket,MovieId")]
             MovieProjection movieProjection) {
@@ -106,6 +111,7 @@ namespace CinemaTicketsApp.Controllers {
         }
 
         // GET: MovieProjections/Delete/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(Guid? id) {
             if (id == null) {
                 return NotFound();
@@ -122,6 +128,7 @@ namespace CinemaTicketsApp.Controllers {
         // POST: MovieProjections/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteConfirmed(Guid id) {
             _movieProjectionService.DeleteMovieProjection(id);
             return RedirectToAction(nameof(Index));

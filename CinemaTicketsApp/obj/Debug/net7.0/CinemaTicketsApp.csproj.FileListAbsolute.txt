@@ -317,3 +317,4 @@ D:\Kiril\Da Finki\6 Semestar\Интегрирани Системи\Cinema-Ticket
 D:\Kiril\Da Finki\6 Semestar\Интегрирани Системи\Cinema-Tickets-Lab-201010\Cinema-Tickets\CinemaTicketsApp\bin\Debug\net7.0\SixLabors.Fonts.dll
 D:\Kiril\Da Finki\6 Semestar\Интегрирани Системи\Cinema-Tickets-Lab-201010\Cinema-Tickets\CinemaTicketsApp\bin\Debug\net7.0\System.IO.Packaging.dll
 D:\Kiril\Da Finki\6 Semestar\Интегрирани Системи\Cinema-Tickets-Lab-201010\Cinema-Tickets\CinemaTicketsApp\bin\Debug\net7.0\XLParser.dll
+D:\Kiril\Da Finki\6 Semestar\Интегрирани Системи\Cinema-Tickets-Lab-201010\Cinema-Tickets\CinemaTicketsApp\bin\Debug\net7.0\ExcelDataReader.dll
