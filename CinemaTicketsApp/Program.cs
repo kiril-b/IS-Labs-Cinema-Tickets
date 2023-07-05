@@ -1,3 +1,4 @@
+using CinemaTicketsDomain.DomainModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using CinemaTicketsDomain.Identity;
@@ -28,13 +29,20 @@ builder.Services.AddScoped(typeof(IMovieProjectionRepository), typeof(MovieProje
 builder.Services.AddScoped(typeof(IOrderRepository), typeof(OrderRepository));
 builder.Services.AddScoped(typeof(IShoppingCartRepository), typeof(ShoppingCartRepository));
 
+var emailSettings = new EmailSettings();
+builder.Configuration.GetSection("EmailSettings").Bind(emailSettings);
+builder.Services.AddScoped<EmailSettings>(es => emailSettings);
 
 builder.Services.AddTransient<IMovieService, MovieService>();
 builder.Services.AddTransient<IMovieProjectionService, MovieProjectionService>();
+builder.Services.AddTransient<IMailService, MailService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddTransient<IShoppingCartService, ShoppingCartService>();
 
+// builder.Services.AddScoped<IMailService, MailService>(email => new MailService(emailSettings));
+
 builder.Services.AddControllersWithViews();
+
 
 var app = builder.Build();
 

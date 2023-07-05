@@ -12,12 +12,14 @@ public class OrderService : IOrderService {
     private readonly IOrderRepository _orderRepository;
     private readonly IUserRepository _userRepository;
     private readonly IRepository<TicketInOrder> _ticketsInOrderRepository;
+    private readonly IMailService _mailService;
 
     public OrderService(IOrderRepository orderRepository, IUserRepository userRepository,
-        IRepository<TicketInOrder> ticketsInOrderRepository) {
+        IRepository<TicketInOrder> ticketsInOrderRepository, IMailService mailService) {
         _orderRepository = orderRepository;
         _userRepository = userRepository;
         _ticketsInOrderRepository = ticketsInOrderRepository;
+        _mailService = mailService;
     }
 
     public IEnumerable<Order> GetAllOrders() {
@@ -65,6 +67,14 @@ public class OrderService : IOrderService {
             _ticketsInOrderRepository.Insert(ticketInOrder);
         }
 
+
+        // Send confirmation mail
+        _mailService.SendEmail(
+            user.Email,
+            "Ticket Purchase Confirmation - Enjoy Your Movie!",
+            "Thank you for choosing us for your movie ticket purchase! We are thrilled to confirm that your transaction was successful, and your ticket(s) are now reserved for the movie(s) of your choice."
+        );
+        
         // Clear shopping cart
         user.ShoppingCart.Tickets.Clear();
         _userRepository.Update(user);
@@ -109,7 +119,7 @@ public class OrderService : IOrderService {
             .AsEnumerable();
     }
 
-    public  byte[] ExportToExcel(string genre) {
+    public byte[] ExportToExcel(string genre) {
         var tickets = this.GetAllOrders()
             .SelectMany(o => o.Tickets)
             .Where(t => t.MovieProjection.Movie.Genre.Equals(genre))

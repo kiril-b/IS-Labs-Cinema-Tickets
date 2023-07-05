@@ -123,6 +123,10 @@
             "GemBox.Document": {
               "target": "Package",
               "version": "[35.0.1403, )"
+            },
+            "MailKit": {
+              "target": "Package",
+              "version": "[4.1.0, )"
             }
           },
           "imports": [

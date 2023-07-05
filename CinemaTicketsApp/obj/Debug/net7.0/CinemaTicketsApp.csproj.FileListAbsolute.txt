@@ -318,3 +318,8 @@ D:\Kiril\Da Finki\6 Semestar\Интегрирани Системи\Cinema-Ticket
 D:\Kiril\Da Finki\6 Semestar\Интегрирани Системи\Cinema-Tickets-Lab-201010\Cinema-Tickets\CinemaTicketsApp\bin\Debug\net7.0\System.IO.Packaging.dll
 D:\Kiril\Da Finki\6 Semestar\Интегрирани Системи\Cinema-Tickets-Lab-201010\Cinema-Tickets\CinemaTicketsApp\bin\Debug\net7.0\XLParser.dll
 D:\Kiril\Da Finki\6 Semestar\Интегрирани Системи\Cinema-Tickets-Lab-201010\Cinema-Tickets\CinemaTicketsApp\bin\Debug\net7.0\ExcelDataReader.dll
+D:\Kiril\Da Finki\6 Semestar\Интегрирани Системи\Cinema-Tickets-Lab-201010\Cinema-Tickets\CinemaTicketsApp\bin\Debug\net7.0\BouncyCastle.Cryptography.dll
+D:\Kiril\Da Finki\6 Semestar\Интегрирани Системи\Cinema-Tickets-Lab-201010\Cinema-Tickets\CinemaTicketsApp\bin\Debug\net7.0\MailKit.dll
+D:\Kiril\Da Finki\6 Semestar\Интегрирани Системи\Cinema-Tickets-Lab-201010\Cinema-Tickets\CinemaTicketsApp\bin\Debug\net7.0\MimeKit.dll
+D:\Kiril\Da Finki\6 Semestar\Интегрирани Системи\Cinema-Tickets-Lab-201010\Cinema-Tickets\CinemaTicketsApp\bin\Debug\net7.0\System.Security.Cryptography.Pkcs.dll
+D:\Kiril\Da Finki\6 Semestar\Интегрирани Системи\Cinema-Tickets-Lab-201010\Cinema-Tickets\CinemaTicketsApp\bin\Debug\net7.0\runtimes\win\lib\net7.0\System.Security.Cryptography.Pkcs.dll
