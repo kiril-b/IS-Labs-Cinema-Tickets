@@ -38,12 +38,14 @@
             <div class="nav-item border border-2" style="width: 47%;">
                 <a class="nav-link text-dark" asp-area="" asp-controller="MovieProjections" asp-action="Index">Buy Tickets</a>
             </div>
-            <div class="nav-item border border-2 bg-light" style="width: 47%;">
-                <a class="nav-link text-dark" asp-area="" asp-controller="ShoppingCart" asp-action="Index">Shopping Cart</a>
-            </div>
-            <div class="nav-item border border-2 bg-light" style="width: 47%;">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">Orders history</a>
-            </div>
+            @if (User.Identity.IsAuthenticated) {
+                <div class="nav-item border border-2 bg-light" style="width: 47%;">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="ShoppingCart" asp-action="Index">Shopping Cart</a>
+                </div>
+                <div class="nav-item border border-2 bg-light" style="width: 47%;">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">Orders history</a>
+                </div>
+            }
         </div>
     </div>
 </div>

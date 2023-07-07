@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using CinemaTicketServices.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CinemaTicketsApp.Controllers {
@@ -12,12 +13,14 @@ namespace CinemaTicketsApp.Controllers {
 
 
         // GET: ShoppingCart
+        [Authorize]
         public IActionResult Index() {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             return View(_shoppingCartService.FetchShoppingCart(userId));
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult AddToShoppingCart(Guid movieProjectionId, int quantity) {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 

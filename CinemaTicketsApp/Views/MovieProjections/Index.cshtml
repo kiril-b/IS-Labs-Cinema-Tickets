@@ -57,7 +57,18 @@
                                 <form asp-controller="ShoppingCart" asp-action="AddToShoppingCart" method="post">
                                     <input type="text" value="@projection.Id" name="movieProjectionId" hidden="hidden">
                                     <input type="number" name="quantity" class="form-control my-2 w-25" placeholder="Quantity">
-                                    <button type="submit" class="btn btn-success my-2">Add to Cart</button>
+                                    @if (projection.AvailableTickets != 0) {
+                                        @if (User.Identity.IsAuthenticated) {
+                                            <button type="submit" class="btn btn-success my-2">Add to Cart</button>
+                                        }
+                                        else {
+                                            <button type="submit" class="btn btn-success my-2" disabled>Add to Cart</button>
+                                            <span class="text-muted ms-2">Log in to add to cart</span>
+                                        }
+                                    }
+                                    else {
+                                        <span class="badge bg-danger">Sold out!</span>
+                                    }
                                 </form>
                             </div>
                         </td>

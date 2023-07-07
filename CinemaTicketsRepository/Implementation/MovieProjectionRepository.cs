@@ -14,10 +14,10 @@ public class MovieProjectionRepository : IMovieProjectionRepository {
         this.entities = context.Set<MovieProjection>();
     }
 
-    public IEnumerable<MovieProjection> GetAvailableProjections() {
+    public IEnumerable<MovieProjection> GetProjections() {
         return this.entities
             .Include(m => m.Movie)
-            .Where(m => m.AvailableTickets > 0 && m.DateTime >= DateTime.Now)
+            .Where(m => m.DateTime >= DateTime.Now)
             .AsEnumerable();
     }
 

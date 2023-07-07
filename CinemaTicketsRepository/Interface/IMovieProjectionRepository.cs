@@ -4,7 +4,7 @@ using CinemaTicketsDomain.DomainModels;
 namespace CinemaTicketsRepository.Interface;
 
 public interface IMovieProjectionRepository {
-    IEnumerable<MovieProjection> GetAvailableProjections();
+    IEnumerable<MovieProjection> GetProjections();
     IEnumerable<MovieProjection> GetFilteredProjections(DateTime from, DateTime to);
     MovieProjection Get(Guid? id);
     void Insert(MovieProjection entity);

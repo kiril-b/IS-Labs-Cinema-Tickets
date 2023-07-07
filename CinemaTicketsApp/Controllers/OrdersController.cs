@@ -15,6 +15,7 @@ namespace CinemaTicketsApp.Controllers {
         }
 
         // GET: Orders
+        [Authorize]
         public IActionResult Index() {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             return View(_orderService.GetAllOrdersForUser(userId));

@@ -14,7 +14,7 @@ public class MovieProjectionService : IMovieProjectionService {
 
     public List<MovieProjection> GetAllMovieProjections() {
         return _movieProjectionRepository
-            .GetAvailableProjections()
+            .GetProjections()
             .ToList();
     }
 
